@@ -6,8 +6,8 @@ A Unity Mobile Game about chain reaction combined with balls
 Kamera:
 skripta za smooth pracenje djuleta (gameobject-a)
 
-Mehanika za top:
-Rotiranje
+Mehanika za top (Rajo radi):
+Rotiranje- DONE
 na dodir da ispuca djule (gameobject)
 
 -Prefab djuleta
