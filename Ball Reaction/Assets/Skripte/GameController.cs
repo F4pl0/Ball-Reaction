@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public GameObject Djule;
     public GameObject colObj;
     public GameObject topExit;
+    public GameObject gameover;
+    public Text scoreText;
+    bool waitingTap = false;
+
     public float exitForce = 10f;
     public List<GameObject> djulat;
     public List<GameObject> targetat;
@@ -28,15 +34,18 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !playing)
+        if (Input.anyKeyDown || Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Space))
         {
-            djulat.Add(Instantiate(Djule, topExit.transform.position, topExit.transform.rotation));
-            Rigidbody2D rigidbody2D;
-            rigidbody2D =  djulat.ToArray()[djulat.ToArray().Length-1].GetComponent<Rigidbody2D>();
-            djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
-            rigidbody2D.velocity = djulat.ToArray()[djulat.ToArray().Length - 1].transform.up * exitForce;
-            playing = true;
-            kameraFollow.enabled = true;
+            if (!playing)
+            {
+                djulat.Add(Instantiate(Djule, topExit.transform.position, topExit.transform.rotation));
+                Rigidbody2D rigidbody2D;
+                rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
+                djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
+                rigidbody2D.velocity = djulat.ToArray()[djulat.ToArray().Length - 1].transform.up * exitForce;
+                playing = true;
+                kameraFollow.enabled = true;
+            }
         }
         if (djulat.ToArray().Length > 0)
         {
@@ -56,6 +65,7 @@ public class GameController : MonoBehaviour
                 }
             }
             if(najviseDjule.transform.position.y > maxHeight)
+
             {
                 maxHeight = najviseDjule.transform.position.y;
             }
@@ -64,11 +74,22 @@ public class GameController : MonoBehaviour
                 playing = false;
                 kameraFollow.enabled = false;
                 //GAME OVER
+                gameover.SetActive(true);
+                scoreText.text = "Your score is: "+(int)maxHeight*3;
+                waitingTap = true;
             }
             kameraFollow.objectToFollow = najviseDjule;
             
         }
-        for(int i=0; i < targetat.ToArray().Length; i++)
+        if (Input.anyKeyDown || Input.touchCount > 0)
+        {
+            //Load scene
+            if (waitingTap)
+            {
+                SceneManager.LoadScene(1);
+            }
+        }
+        for (int i=0; i < targetat.ToArray().Length; i++)
         {
             if(targetat.ToArray()[i] != null)
             {
@@ -84,37 +105,41 @@ public class GameController : MonoBehaviour
             genMax += spawnFreq;
         }
 
-        if(listeningForSpace && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.anyKeyDown || Input.touchCount > 0)
         {
-
-            for (int i = 0; i < djulat.ToArray().Length; i++)
+            if (listeningForSpace)
             {
-                if (djulat.ToArray()[i] != null)
+
+                for (int i = 0; i < djulat.ToArray().Length; i++)
                 {
-                    if (djuleObj != djulat.ToArray()[i])
+                    if (djulat.ToArray()[i] != null)
                     {
-                        Destroy(djulat.ToArray()[i]);
+                        if (djuleObj != djulat.ToArray()[i])
+                        {
+                            Destroy(djulat.ToArray()[i]);
+                        }
                     }
                 }
+                kameraFollow.stopTrack();
+                //pop
+                djuleObj.GetComponent<Rigidbody2D>().velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x, 12);
+                Destroy(targetObj);
+
+                djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
+                Rigidbody2D rigidbody2D;
+                rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
+                djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
+                rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x - 3, djuleObj.GetComponent<Rigidbody2D>().velocity.y + 3);
+
+                djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
+                //Rigidbody2D rigidbody2D;
+                rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
+                djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
+                rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x + 3, djuleObj.GetComponent<Rigidbody2D>().velocity.y - 3);
+
+
+                unCollision();
             }
-            //pop
-            djuleObj.GetComponent<Rigidbody2D>().velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x , 12);
-            Destroy(targetObj);
-               
-            djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
-            Rigidbody2D rigidbody2D;
-            rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
-            djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
-            rigidbody2D.velocity = new Vector2( djuleObj.GetComponent<Rigidbody2D>().velocity.x-3, djuleObj.GetComponent<Rigidbody2D>().velocity.y+3);
-
-            djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
-            //Rigidbody2D rigidbody2D;
-            rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
-            djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
-            rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x + 3, djuleObj.GetComponent<Rigidbody2D>().velocity.y - 3);
-
-
-            unCollision();
         }
     }
     public void Collision(GameObject djuleObj, GameObject colObj)

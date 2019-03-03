@@ -21,10 +21,12 @@ public class djuleScript : MonoBehaviour
     {
         Time.timeScale = 0.3f;
         cameraObject.GetComponent<GameController>().Collision(this.gameObject, collision.gameObject);
+        cameraObject.GetComponent<KameraFollow>().track(this.gameObject);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         Time.timeScale = 1f;
         cameraObject.GetComponent<GameController>().unCollision();
+        cameraObject.GetComponent<KameraFollow>().stopTrack();
     }
 }
