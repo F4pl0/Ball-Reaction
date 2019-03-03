@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public GameObject topExit;
     public float exitForce = 10f;
     public List<GameObject> djulat;
+    public List<GameObject> targetat;
     public KameraFollow kameraFollow;
     public bool playing = false;
     GameObject najviseDjule;
@@ -16,11 +17,12 @@ public class GameController : MonoBehaviour
     float genMax = 7;
     bool listeningForSpace = false;
     GameObject djuleObj, targetObj;
+    public float maxHeight = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -34,6 +36,7 @@ public class GameController : MonoBehaviour
             djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
             rigidbody2D.velocity = djulat.ToArray()[djulat.ToArray().Length - 1].transform.up * exitForce;
             playing = true;
+            kameraFollow.enabled = true;
         }
         if (djulat.ToArray().Length > 0)
         {
@@ -52,13 +55,32 @@ public class GameController : MonoBehaviour
                     }
                 }
             }
+            if(najviseDjule.transform.position.y > maxHeight)
+            {
+                maxHeight = najviseDjule.transform.position.y;
+            }
+            if(najviseDjule.transform.position.y < maxHeight - 10)
+            {
+                playing = false;
+                kameraFollow.enabled = false;
+                //GAME OVER
+            }
             kameraFollow.objectToFollow = najviseDjule;
-            kameraFollow.enabled = true;
             
+        }
+        for(int i=0; i < targetat.ToArray().Length; i++)
+        {
+            if(targetat.ToArray()[i] != null)
+            {
+                if(this.transform.position.y-7 > targetat.ToArray()[i].transform.position.y)
+                {
+                    Destroy(targetat.ToArray()[i]);
+                }
+            }
         }
         while (this.transform.position.y + 40 > genMax)
         {
-            Instantiate(colObj, new Vector2(Random.Range(-2.5f, 2.5f), genMax), new Quaternion());
+            targetat.Add(Instantiate(colObj, new Vector2(Random.Range(-2.5f, 2.5f), genMax), new Quaternion()));
             genMax += spawnFreq;
         }
 
