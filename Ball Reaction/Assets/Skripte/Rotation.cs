@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotation : MonoBehaviour {
-
-    public float kolkoPivota = 0.013f;
-    public float trenutnaRotacija = 0.0f;
-    public bool levaStrana = true;
+    
+    public float scaler = 100;
+    public bool levaStrana = false;
 	// Use this for initialization
 	void Start () {
         
@@ -15,13 +14,18 @@ public class Rotation : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        float angle = this.transform.localEulerAngles.z;
+        if (angle > 180)
+        {
+            angle = -360 + angle;
+        }
+
         if (levaStrana)
         {
-            if(trenutnaRotacija > -1)
+            if(angle < 60)
             {
-                trenutnaRotacija -= kolkoPivota;
                 //updaj poziciju
-                transform.Rotate(Vector3.forward * 100 * trenutnaRotacija * Time.deltaTime);
+                transform.Rotate(Vector3.forward * scaler * Time.deltaTime);
             }
             else
             {
@@ -30,12 +34,10 @@ public class Rotation : MonoBehaviour {
         }
         else
         {
-            if (trenutnaRotacija < 1)
+            if (angle > -60)
             {
-                trenutnaRotacija += kolkoPivota;
                 //updaj poziciju
-                transform.Rotate(Vector3.forward*100 * trenutnaRotacija * Time.deltaTime);
-                print(trenutnaRotacija);
+                transform.Rotate(Vector3.forward * -scaler * Time.deltaTime);
             }
             else
             {
