@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown || Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Space))
+        if (Input.anyKeyDown || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space))
         {
             if (!playing)
             {
@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour
             kameraFollow.objectToFollow = najviseDjule;
             
         }
-        if (Input.anyKeyDown || Input.touchCount > 0)
+        if (Input.anyKeyDown || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began))
         {
             //Load scene
             if (waitingTap)
@@ -105,7 +105,7 @@ public class GameController : MonoBehaviour
             genMax += spawnFreq;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.anyKeyDown || Input.touchCount > 0)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.anyKeyDown || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began))
         {
             if (listeningForSpace)
             {
