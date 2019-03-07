@@ -120,7 +120,6 @@ public class GameController : MonoBehaviour
                         }
                     }
                 }
-                kameraFollow.stopTrack();
                 //pop
                 djuleObj.GetComponent<Rigidbody2D>().velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x, 12);
                 Destroy(targetObj);
