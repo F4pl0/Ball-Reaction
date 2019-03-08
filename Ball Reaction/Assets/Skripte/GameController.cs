@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     public GameObject gameover;
     public Text scoreText;
     bool waitingTap = false;
+    public GameObject Top;
+    animations topAnim;
 
     public float exitForce = 10f;
     public List<GameObject> djulat;
@@ -28,7 +30,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        topAnim = Top.GetComponent<animations>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,8 @@ public class GameController : MonoBehaviour
         {
             if (!playing)
             {
+                topAnim.animation = 1;
+                topAnim.pucTopAnim();
                 djulat.Add(Instantiate(Djule, topExit.transform.position, topExit.transform.rotation));
                 Rigidbody2D rigidbody2D;
                 rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
