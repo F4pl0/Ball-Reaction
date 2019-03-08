@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class djuleScript : MonoBehaviour
 {
-    public float tilt = 0.2f;
+    public float tilt = 0.7f;
     public GameObject cameraObject;
     // Start is called before the first frame update
     void Start()
@@ -15,7 +15,7 @@ public class djuleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector2(transform.position.x+ Input.acceleration.x * tilt, transform.position.y);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x + Input.acceleration.x * tilt, GetComponent<Rigidbody2D>().velocity.y);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
