@@ -10,17 +10,19 @@ public class GameController : MonoBehaviour
     public GameObject colObj;
     public GameObject topExit;
     public GameObject gameover;
-    public Text scoreText;
-    bool waitingTap = false;
     public GameObject Top;
+    public GameObject explosion;
+    public Text ScoreTxt;
+    public float exitForce = 10f;
+
+    GameObject najviseDjule;
+    bool waitingTap = false;
     animations topAnim;
 
-    public float exitForce = 10f;
     public List<GameObject> djulat;
     public List<GameObject> targetat;
     public KameraFollow kameraFollow;
     public bool playing = false;
-    GameObject najviseDjule;
     public float spawnFreq = 2;
     float genMax = 7;
     bool listeningForSpace = false;
@@ -31,15 +33,19 @@ public class GameController : MonoBehaviour
     void Start()
     {
         topAnim = Top.GetComponent<animations>();
+        ScoreTxt.gameObject.SetActive(false);
+        gameover.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        ScoreTxt.text = "Score: " +(int)maxHeight;
         if (Input.anyKeyDown || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space))
         {
             if (!playing)
             {
+                ScoreTxt.gameObject.SetActive(true);
                 topAnim.animation = 1;
                 topAnim.pucTopAnim();
                 djulat.Add(Instantiate(Djule, topExit.transform.position, topExit.transform.rotation));
@@ -79,7 +85,6 @@ public class GameController : MonoBehaviour
                 kameraFollow.enabled = false;
                 //GAME OVER
                 gameover.SetActive(true);
-                scoreText.text = "Your score is: "+(int)maxHeight*3;
                 waitingTap = true;
             }
             kameraFollow.objectToFollow = najviseDjule;
@@ -129,6 +134,7 @@ public class GameController : MonoBehaviour
                 Destroy(targetObj);
 
                 djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
+                Instantiate(explosion, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w));
                 Rigidbody2D rigidbody2D;
                 rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
                 djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
