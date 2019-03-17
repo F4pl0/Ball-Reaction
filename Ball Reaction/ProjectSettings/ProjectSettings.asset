@@ -123,7 +123,19 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 2800000, guid: 8bed4cfbbef258e468dc2c933112c4bb, type: 3}
+  - {fileID: 2800000, guid: 8b2ed49f9e247ea4eaa577fef5c84bfd, type: 3}
+  - {fileID: 2800000, guid: 4870e769f9669e14697d8eddcdc0e4ad, type: 3}
+  - {fileID: 2800000, guid: e1983ca1fadf8134d80aa836ad3f1333, type: 3}
+  - {fileID: 2800000, guid: 04ef3a1dd446d2b42b6a88cfb2635d37, type: 3}
+  - {fileID: 2800000, guid: 1fe8c9905d9416e4f89c1920cdc12299, type: 3}
+  - {fileID: 2800000, guid: 02faaded920bf9341b055065f4a996d8, type: 3}
+  - {fileID: 2800000, guid: f856e2a34b1a49f43810700f50e28e4c, type: 3}
+  - {fileID: 8172040179115920490, guid: 81edd9a195c90af429578656e9d54d17, type: 3}
+  - {fileID: 8663433097218897360, guid: cc1ac1d0e97efd6438e6b3e564e6836c, type: 3}
+  - {fileID: 1552024187883126, guid: 45190147b5cc3ad40b3a00e8a86279e0, type: 3}
+  - {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -606,7 +618,7 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   apiCompatibilityLevelPerPlatform:
