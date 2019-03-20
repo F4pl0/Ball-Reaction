@@ -88,7 +88,6 @@ public class GameController : MonoBehaviour
                 }
                 if (najviseDjule.transform.position.y < maxHeight - 10)
                 {
-                    playing = false;
                     kameraFollow.enabled = false;
                     //GAME OVER
                     gameover.SetActive(true);
@@ -102,7 +101,7 @@ public class GameController : MonoBehaviour
                 //Load scene
                 if (waitingTap)
                 {
-                    SceneManager.LoadScene(1);
+                    //TAPT
                 }
             }
             for (int i = 0; i < targetat.ToArray().Length; i++)
@@ -174,5 +173,9 @@ public class GameController : MonoBehaviour
     public void toMenu()
     {
         SceneManager.LoadSceneAsync(0);
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene(1);
     }
 }
