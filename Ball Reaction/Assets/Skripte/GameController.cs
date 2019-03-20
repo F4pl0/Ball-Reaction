@@ -171,4 +171,8 @@ public class GameController : MonoBehaviour
     {
         listeningForSpace = false;
     }
+    public void toMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
 }
