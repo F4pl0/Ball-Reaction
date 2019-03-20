@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeSinceLevelLoad > .5)
+        if (Time.timeSinceLevelLoad > .1)
         {
             ScoreTxt.text = "Score: " + (int)maxHeight;
             if (Input.anyKeyDown || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space) && Time.timeSinceLevelLoad > 300)
@@ -147,13 +147,13 @@ public class GameController : MonoBehaviour
                     Rigidbody2D rigidbody2D;
                     rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
                     djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
-                    rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x - 3, djuleObj.GetComponent<Rigidbody2D>().velocity.y + 3);
+                    rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x + Random.Range(-3, 3), djuleObj.GetComponent<Rigidbody2D>().velocity.y + Random.Range(-3, 3));
 
                     djulat.Add(Instantiate(Djule, djuleObj.transform.position, new Quaternion(0, 0, djuleObj.transform.rotation.z, djuleObj.transform.rotation.w)));
                     //Rigidbody2D rigidbody2D;
                     rigidbody2D = djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<Rigidbody2D>();
                     djulat.ToArray()[djulat.ToArray().Length - 1].GetComponent<djuleScript>().cameraObject = this.gameObject;
-                    rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x + 3, djuleObj.GetComponent<Rigidbody2D>().velocity.y - 3);
+                    rigidbody2D.velocity = new Vector2(djuleObj.GetComponent<Rigidbody2D>().velocity.x + Random.Range(-3, 3), djuleObj.GetComponent<Rigidbody2D>().velocity.y + Random.Range(-3, 3));
 
 
                     unCollision();
