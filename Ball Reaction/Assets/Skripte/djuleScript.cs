@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class djuleScript : MonoBehaviour
 {
-    public float tilt = 0.7f;
+    public float tilt = 1f;
     public GameObject cameraObject;
     // Start is called before the first frame update
     void Start()
